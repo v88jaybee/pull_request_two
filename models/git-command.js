@@ -11,6 +11,27 @@ class GitCommand {
 
     //Command: git status
     // status(){}
+    status(){        
+        /*
+            For assignment #1:
+            Create logic here and run unit testing.
+        */
+        let object_key_count = Object.keys(this.working_directory.new_changes).length
+
+        if(object_key_count > 0){
+            let new_files = '';
+
+            for(let object_idx in this.working_directory.new_changes){
+                new_files += '\n'+object_idx 
+            }
+
+            return 'You have '+object_key_count+' change/s.' + new_files
+        }
+        else{
+            return 'You have 0 change/s.\n';
+        }
+      
+    }
 
     //Command: git add <filename/file directory/wildcard> 
     add(path_file){
@@ -23,6 +44,17 @@ class GitCommand {
         /*
             Create logic here and run unit testing.
         */
+        else if(path_file === "."){
+            if(Object.keys(modified_files).length > 0){
+                for(let path_file of Object.keys(modified_files)) {
+                    this.staging.push(path_file);
+                    delete modified_files[path_file];
+                }
+            }
+            else{
+                return `There is no file changes.`;
+            }
+        }
         else{
             return `Failed to add ${path_file}! File is not modified or missing.`;
         }
