@@ -57,9 +57,21 @@ class GitCommand {
                 return `There is no file changes.`;
             }
         }  
+        else if(path_file === "."){
+            if(Object.keys(modified_files).length > 0){
+                for(let path_file of Object.keys(modified_files)) {
+                    this.staging.push(path_file);
+                    delete modified_files[path_file];
+                }
+            }
+            else{
+                return `There is no file changes.`;
+            }
+        }
         else{
             return `Failed to add ${path_file}! File is not modified or missing.`;
         }
+        
         return "Successfully added as index file/s.";
     }
 
